@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native'
 import { TextInput, Button, Portal, Dialog, Paragraph, Provider } from 'react-native-paper'
+import { connect } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+
+// load local modules
+import { fetchUser } from '../redux/actions/loginAction'
 
 
 const Login = (props) => {
@@ -12,13 +17,14 @@ const Login = (props) => {
     const [message, setMessage] = useState('');
     const [loggedin, setLoggedIn] = useState(false);
 
+
     const onSignIn = async () => {
         const headers = { "Content-type": "application/json; charset=UTF-8" }
         const data = { email: email, password: password }
         const jsondata = JSON.stringify(data)
-        const response = await fetch('http://127.0.0.1:8000/api/login/', { method: 'POST', body: jsondata, headers: headers })
-        const res = await response.json()
-        console.log(res)
+        const payload = {method: "POST", body: jsondata, headers: headers }
+        const res = await props.fetchUser(payload)
+        console.log("DISPATCH: ", res)
 
         if (res.errCode === 1) {
             setVisible(true);
@@ -100,4 +106,6 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Login;
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
+
+export default connect(null, mapDispatchToProps)(Login);

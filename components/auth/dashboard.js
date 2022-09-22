@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native'
+import { connect } from 'react-redux'
 
-function Dashboard(props) {
+
+const Dashboard = (props)=> {
+    console.log("PROPS: ", props)
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Text>Dashboard</Text>
@@ -9,4 +12,8 @@ function Dashboard(props) {
     );
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+    user: state.userState
+})
+
+export default connect(mapStateToProps, null)(Dashboard);

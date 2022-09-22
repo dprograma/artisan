@@ -1,3 +1,5 @@
+import { USER_LOGIN } from '../constants/types'
+
 const initialState = {
     currentUser: null,
 }
